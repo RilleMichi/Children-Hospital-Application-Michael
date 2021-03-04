@@ -3,6 +3,7 @@ package version1;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import version1.Pediatrition.Title;
 import version1.Person.Gender;
@@ -33,15 +34,34 @@ public class ConsoleApp {
 		patient1.addVaccination(vaccination1);
 		patient1.addVaccination(vaccination2);
 		
+		//Man erstellt eine PAtients liste, wo man alle Patienten manuell einfügen
 		//Würde auch mit Person funktionieren
 		ArrayList<Patient> patients = new ArrayList<>();
 		patients.add(patient1);
 		patients.add(patient2);
 		
+		//Aufrufen der Methoden
 		printPatient(patients);
-		System.out.println(searchPatient("Michel", "Nguyen", patients));
+		
+		Patient searchPatient;
+		do {
+			Scanner scanner = new Scanner(System.in);
+			System.out.println("Enter Firstname: ");
+			String firstName = scanner.next();
+			
+			System.out.println("Enter Lastname: ");
+			String lastName = scanner.next();
+			
+			searchPatient = searchPatient(firstName, lastName, patients);
+			System.out.println(searchPatient);
+		}
+		while (searchPatient == null);
+		
+		
+		System.out.println(searchPatient("Michael", "Nguyen", patients));
 	}
 	
+	//Gibt die gesuchte Person aus
 	private static Patient searchPatient(String firstName, String lastName, List<Patient> patients) {
 		for (Patient patient : patients) {
 			if(patient.getFirstName().equals(firstName) && patient.getLastName().equals(lastName)){
@@ -52,6 +72,7 @@ public class ConsoleApp {
 		return null;
 	}
 	
+	//Gibt alle Patienten aus
 	private static void printPatient(List<Patient> patients) {
 		for (Person patient : patients) {
 			System.out.println(patient);
