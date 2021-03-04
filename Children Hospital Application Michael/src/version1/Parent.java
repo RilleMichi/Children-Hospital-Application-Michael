@@ -23,6 +23,18 @@ public class Parent extends Person {
 		children.add(child);
 	}
 	
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public List<Patient> getChildren() {
+		return children;
+	}
+
 	@Override
 	public String toString() {
 		// Mit super holt man das toString von der Klasse PErson, da es vererbt wurde

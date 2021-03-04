@@ -2,6 +2,7 @@ package version1;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 import version1.Pediatrition.Title;
 import version1.Person.Gender;
@@ -32,11 +33,30 @@ public class ConsoleApp {
 		patient1.addVaccination(vaccination1);
 		patient1.addVaccination(vaccination2);
 		
+		//Würde auch mit Person funktionieren
+		ArrayList<Patient> patients = new ArrayList<>();
+		patients.add(patient1);
+		patients.add(patient2);
 		
-		ArrayList<Person> persons = new ArrayList<>();
-		persons.add(patient1);
-		persons.add(patient2);
-		System.out.println(persons);
+		printPatient(patients);
+		System.out.println(searchPatient("Michel", "Nguyen", patients));
+	}
+	
+	private static Patient searchPatient(String firstName, String lastName, List<Patient> patients) {
+		for (Patient patient : patients) {
+			if(patient.getFirstName().equals(firstName) && patient.getLastName().equals(lastName)){
+				return patient;
+			}
+			return null;
+		}
+		return null;
+	}
+	
+	private static void printPatient(List<Patient> patients) {
+		for (Person patient : patients) {
+			System.out.println(patient);
+			System.out.println();
+		}
 	}
 
 }

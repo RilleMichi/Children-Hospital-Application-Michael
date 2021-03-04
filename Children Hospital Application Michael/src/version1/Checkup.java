@@ -33,10 +33,34 @@ public class Checkup {
 		this.pediatrition = pediatrition;
 	}
 
+	public double getWeight() {
+		return weight;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public double getTemperature() {
+		return temperature;
+	}
+
+	public boolean isCovid19() {
+		return covid19;
+	}
+
+	public LocalDate getCheckupDate() {
+		return checkupDate;
+	}
+
+	public Pediatrition getPediatrition() {
+		return pediatrition;
+	}
+
 	@Override
 	public String toString() {
-		// %s --> s
-		return String.format("The following investigation: {%s:, %s, %s, %s, %s}", this.checkupDate, this.weight,
+		// %s --> string
+		return String.format("{Date: %s, Weight: %skg, Height: %scm, Temp.: %s Celsius, Covid-19: %s}", this.checkupDate, this.weight,
 				this.height, this.temperature, this.covid19);
 		/*
 		 * return "The following investigation: \n-Date: " + this.checkupDate +

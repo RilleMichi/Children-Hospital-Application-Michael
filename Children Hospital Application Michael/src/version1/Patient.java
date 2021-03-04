@@ -42,10 +42,30 @@ public class Patient extends Person {
 		vaccinations.add(vaccination);
 	}
 	
+	public LocalDate getBirthDate() {
+		return birthDate;
+	}
+
+	public Parent getParent() {
+		return parent;
+	}
+
+	public Insurance getInsurance() {
+		return insurance;
+	}
+
+	public ArrayList<Checkup> getCheckups() {
+		return checkups;
+	}
+
+	public List<Vaccination> getVaccinations() {
+		return vaccinations;
+	}
+	
 	@Override
 	public String toString() {
 		// Mit super holt man das toString von der Klasse PErson, da es vererbt wurde
-		return "Patient: " + super.toString() + " " + this.birthDate + "\n" + this.checkups + "\n" + this.vaccinations;
+		return "Patient: " + super.toString() + " " + this.birthDate + " " + this.insurance + "\nThe following investigation:" + this.checkups + "\nThe following Vaccinations: " + this.vaccinations;
 	}
 	
 }

@@ -24,6 +24,19 @@ public class Person {
 		this.lastName = lastName;
 		this.gender = gender;
 	}
+	
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public Gender getGender() {
+		return gender;
+	}
+
 
 	// toString überschreiben, damit man eine klaren Output hat
 	@Override

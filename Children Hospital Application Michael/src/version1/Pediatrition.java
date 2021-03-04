@@ -11,6 +11,10 @@ public class Pediatrition extends Person {
 		// TODO Auto-generated constructor stub
 	}
 	
+	public Title getTitle() {
+		return title;
+	}
+
 	@Override
 	public String toString() {
 		// Mit super holt man das toString von der Klasse PErson, da es vererbt wurde
