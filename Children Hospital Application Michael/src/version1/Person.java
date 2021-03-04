@@ -1,4 +1,4 @@
-package Version1;
+package version1;
 
 public class Person {
 
@@ -19,10 +19,10 @@ public class Person {
 	private String lastName;
 	private Gender gender;
 
-	public Person(String afirstName, String alastName, Gender agender) {
-		this.firstName = afirstName;
-		this.lastName = alastName;
-		this.gender = agender;
+	public Person(String firstName, String lastName, Gender gender) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.gender = gender;
 	}
 
 	// toString überschreiben, damit man eine klaren Output hat

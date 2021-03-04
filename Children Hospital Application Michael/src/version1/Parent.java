@@ -1,4 +1,4 @@
-package Version1;
+package version1;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,8 +11,8 @@ public class Parent extends Person {
 
 	// firstName, lastName und Gender muss man mitgeben, da es von Person erbt
 	// super gibt den Input an die Klasse Person
-	public Parent(String afirstName, String alastName, Gender agender, String phoneNumber, String address) {
-		super(afirstName, alastName, agender);
+	public Parent(String firstName, String lastName, Gender gender, String phoneNumber, String address) {
+		super(firstName, lastName, gender);
 		this.phoneNumber = phoneNumber;
 		this.address = address;
 		this.children = new ArrayList<Patient>();

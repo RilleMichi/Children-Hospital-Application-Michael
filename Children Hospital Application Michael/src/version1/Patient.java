@@ -1,8 +1,10 @@
-package Version1;
+package version1;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.graalvm.compiler.core.common.type.ArithmeticOpTable.BinaryOp.Add;
 
 
 public class Patient extends Person {
@@ -14,12 +16,12 @@ public class Patient extends Person {
 	// List ist ein Interface
 	private List<Vaccination> vaccinations;
 
-	public Patient(String afirstName, String alastName, Gender agender, LocalDate abirthDate, Parent aparent,
-			Insurance ainsurance) {
-		super(afirstName, alastName, agender);
-		this.birthDate = abirthDate;
-		this.parent = aparent;
-		this.insurance = ainsurance;
+	public Patient(String firstName, String lastName, Gender gender, LocalDate birthDate, Parent parent,
+			Insurance insurance) {
+		super(firstName, lastName, gender);
+		this.birthDate = birthDate;
+		this.parent = parent;
+		this.insurance = insurance;
 		/*
 		 * Hier erstellt man eine Liste bzw. man initalisiert es. Das heisst diese
 		 * werden nicht vom User übergeben, sondern werden erstmals erstellt. Sie können
@@ -36,10 +38,14 @@ public class Patient extends Person {
 		checkups.add(checkup);
 	}
 	
+	public void addVaccination(Vaccination vaccination) {
+		vaccinations.add(vaccination);
+	}
+	
 	@Override
 	public String toString() {
 		// Mit super holt man das toString von der Klasse PErson, da es vererbt wurde
-		return "Patient: " + super.toString() + " " + this.birthDate + "\n" + this.checkups;
+		return "Patient: " + super.toString() + " " + this.birthDate + "\n" + this.checkups + "\n" + this.vaccinations;
 	}
 	
 }

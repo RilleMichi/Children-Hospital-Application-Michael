@@ -1,4 +1,4 @@
-package Version1;
+package version1;
 
 import java.time.LocalDate;
 
@@ -10,7 +10,7 @@ public class Checkup {
 	private LocalDate checkupDate;
 	private Pediatrition pediatrition;
 
-	//Konstruktor mit Automatischer Zeit
+	// Konstruktor mit Automatischer Zeit
 	public Checkup(double weight, int height, double temperature, boolean covid19, Pediatrition pediatrition) {
 		this.weight = weight;
 		this.height = height;
@@ -20,9 +20,10 @@ public class Checkup {
 		this.checkupDate = LocalDate.now();
 		this.pediatrition = pediatrition;
 	}
-	
-	//Konstruktor mit Manuelle Zeiteingabe
-	public Checkup(double weight, int height, double temperature, boolean covid19, LocalDate localDate, Pediatrition pediatrition) {
+
+	// Konstruktor mit Manuelle Zeiteingabe
+	public Checkup(double weight, int height, double temperature, boolean covid19, LocalDate localDate,
+			Pediatrition pediatrition) {
 		this.weight = weight;
 		this.height = height;
 		this.temperature = temperature;
@@ -34,9 +35,15 @@ public class Checkup {
 
 	@Override
 	public String toString() {
-		return "The following investigation: \n-Date: " + this.checkupDate + "\n-Weight: " + this.weight
-				+ "kg \n-Height: " + this.height + "cm \n-Temperature: " + this.temperature + "degree \n-Covid-19: "
-				+ this.covid19 + "\n-" + this.pediatrition.toString() + "\n";
+		// %s --> s
+		return String.format("The following investigation: {%s:, %s, %s, %s, %s}", this.checkupDate, this.weight,
+				this.height, this.temperature, this.covid19);
+		/*
+		 * return "The following investigation: \n-Date: " + this.checkupDate +
+		 * "\n-Weight: " + this.weight + "kg \n-Height: " + this.height +
+		 * "cm \n-Temperature: " + this.temperature + "degree \n-Covid-19: " +
+		 * this.covid19 + "\n-" + this.pediatrition.toString() + "\n";
+		 */
 	}
 
 }
