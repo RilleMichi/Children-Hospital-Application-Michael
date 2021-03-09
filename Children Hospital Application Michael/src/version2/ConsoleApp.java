@@ -38,16 +38,12 @@ public class ConsoleApp {
 		patient1.addCheckup(checkup3);
 
 		
-		// Add Vaccinantion für patient2
+		// Add Vaccinantion für patient1
 		Vaccination vaccination1 = new Vaccination(Vaccination.Vaccine.TETANUS, pediatrician1);
 		Vaccination vaccination2 = new Vaccination(Vaccination.Vaccine.COVID, pediatrician2);
 		patient1.addVaccination(vaccination1);
 		patient1.addVaccination(vaccination2);
-		
-
-		// Checkup eingabe
-		Checkup ckeckup3 = createCheckup(pediatrician1);
-		patient1.addCheckup(ckeckup3);
+	
 
 		// Aufrufen der Methoden um alle PAtienten anzuzeigen
 		printPatient();
@@ -74,7 +70,9 @@ public class ConsoleApp {
 
 		// Ärzte erstellen und in Liste eintragen
 		Pediatrician pediatrician1 = new Pediatrician("Adrian", "Casty", Person.Gender.MALE, Pediatrician.Title.Dr_Med);
+		pediatricians.add(pediatrician1);
 		Pediatrician pediatrician2 = new Pediatrician("Heinni", "Hans", Person.Gender.MALE, Pediatrician.Title.Prof_Dr);
+		pediatricians.add(pediatrician2);
 
 		
 	}
@@ -104,15 +102,33 @@ public class ConsoleApp {
 		}
 		double temperature = scanner.nextDouble();
 
-		System.out.println("Enter Covid as True or False");
-		while (!scanner.hasNextBoolean()) {
-			System.out.println("Thats not a Boolean");
-			scanner.next();
+		Boolean covid = null; 
+		do {
+			try{
+				System.out.println("Enter Covid");
+				covid = BooleanValidator.validate(scanner.next());
+			}
+			catch (Exception e) {
+				System.err.println(e.getMessage() + " Try again!");
+			}
 		}
-		boolean covid = scanner.nextBoolean();
+		while (covid == null);
+		
+		LocalDate checkupDate = null; 
+		do {
+			try{
+				System.out.println("Enter Checkup Date in dd:mm:yyyy");
+				checkupDate = DateValidator.validate(scanner.next());
+			}
+			catch (Exception e) {
+				System.err.println(e.getMessage() + " Try again!");
+			}
+		}
+		while (checkupDate == null);
+		
 
 		// Return Checkup
-		return new Checkup(weight, height, temperature, covid, pediatrician);
+		return new Checkup(weight, height, temperature, covid, checkupDate, pediatrician);
 	}
 
 	/***************Patient****************/
