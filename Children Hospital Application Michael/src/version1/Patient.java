@@ -54,14 +54,6 @@ public class Patient extends Person {
 		return insurance;
 	}
 
-	public ArrayList<Checkup> getCheckups() {
-		return checkups;
-	}
-
-	public List<Vaccination> getVaccinations() {
-		return vaccinations;
-	}
-	
 	@Override
 	public String toString() {
 		// Mit super holt man das toString von der Klasse PErson, da es vererbt wurde

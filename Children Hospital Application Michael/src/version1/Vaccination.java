@@ -30,18 +30,18 @@ public class Vaccination {
 
 	private LocalDate date;
 	private Vaccine vaccine;
-	private Pediatrition pediatrition;
+	private Pediatrician pediatrician;
 
-	public Vaccination(Vaccine vaccine, Pediatrition pediatrition) {
+	public Vaccination(Vaccine vaccine, Pediatrician pediatrician) {
 		this.date = LocalDate.now();
 		this.vaccine = vaccine;
-		this.pediatrition = pediatrition;
+		this.pediatrician = pediatrician;
 	}
 
-	public Vaccination(Vaccine vaccine, LocalDate localDate, Pediatrition pediatrition) {
+	public Vaccination(Vaccine vaccine, LocalDate localDate, Pediatrician pediatrician) {
 		this.date = localDate;
 		this.vaccine = vaccine;
-		this.pediatrition = pediatrition;
+		this.pediatrician = pediatrician;
 	}
 
 	public LocalDate getDate() {
@@ -52,8 +52,8 @@ public class Vaccination {
 		return vaccine;
 	}
 
-	public Pediatrition getPediatrition() {
-		return pediatrition;
+	public Pediatrician getPediatrition() {
+		return pediatrician;
 	}
 
 	@Override

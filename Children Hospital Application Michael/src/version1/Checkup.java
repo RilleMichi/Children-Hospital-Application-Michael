@@ -2,35 +2,37 @@ package version1;
 
 import java.time.LocalDate;
 
-public class Checkup {
+public class Checkup {public Checkup() {
+	// TODO Auto-generated constructor stub
+}
 	private double weight;
 	private int height;
 	private double temperature;
 	private boolean covid19;
 	private LocalDate checkupDate;
-	private Pediatrition pediatrition;
+	private Pediatrician pediatrician;
 
 	// Konstruktor mit Automatischer Zeit
-	public Checkup(double weight, int height, double temperature, boolean covid19, Pediatrition pediatrition) {
+	public Checkup(double weight, int height, double temperature, boolean covid19, Pediatrician pediatrician) {
 		this.weight = weight;
 		this.height = height;
 		this.temperature = temperature;
 		this.covid19 = covid19;
 		// Gibt das aktuelle Datum an
 		this.checkupDate = LocalDate.now();
-		this.pediatrition = pediatrition;
+		this.pediatrician = pediatrician;
 	}
 
 	// Konstruktor mit Manuelle Zeiteingabe
 	public Checkup(double weight, int height, double temperature, boolean covid19, LocalDate localDate,
-			Pediatrition pediatrition) {
+			Pediatrician pediatrician) {
 		this.weight = weight;
 		this.height = height;
 		this.temperature = temperature;
 		this.covid19 = covid19;
 		// Gibt das aktuelle Datum an
 		this.checkupDate = localDate;
-		this.pediatrition = pediatrition;
+		this.pediatrician = pediatrician;
 	}
 
 	public double getWeight() {
@@ -53,8 +55,8 @@ public class Checkup {
 		return checkupDate;
 	}
 
-	public Pediatrition getPediatrition() {
-		return pediatrition;
+	public Pediatrician getPediatrition() {
+		return pediatrician;
 	}
 
 	@Override

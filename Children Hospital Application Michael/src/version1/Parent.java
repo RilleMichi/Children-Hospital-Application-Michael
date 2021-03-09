@@ -31,10 +31,6 @@ public class Parent extends Person {
 		return address;
 	}
 
-	public List<Patient> getChildren() {
-		return children;
-	}
-
 	@Override
 	public String toString() {
 		// Mit super holt man das toString von der Klasse PErson, da es vererbt wurde

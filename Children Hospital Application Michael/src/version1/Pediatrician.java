@@ -1,12 +1,12 @@
 package version1;
 
-public class Pediatrition extends Person {
+public class Pediatrician extends Person {
 	
 	public enum Title {Prof_Dr, Dr_Med, Dr};
 	private Title title;
 
-	public Pediatrition(String afirstName, String alastName, Gender agender, Title title) {
-		super(afirstName, alastName, agender);
+	public Pediatrician(String firstName, String lastName, Gender gender, Title title) {
+		super(firstName, lastName, gender);
 		this.title = title;
 		// TODO Auto-generated constructor stub
 	}
@@ -18,6 +18,6 @@ public class Pediatrition extends Person {
 	@Override
 	public String toString() {
 		// Mit super holt man das toString von der Klasse PErson, da es vererbt wurde
-		return "Pediatrition: " + this.title + " " + super.toString();
+		return "Pediatrician: " + this.title + " " + super.toString();
 	}
 }
