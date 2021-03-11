@@ -1,4 +1,7 @@
-package version2;
+package version2.validator;
+
+import version2.models.Vaccination;
+import version2.models.Vaccination.Vaccine;
 
 public class VaccineValidator {
 

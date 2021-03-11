@@ -1,4 +1,7 @@
-package version2;
+package version2.validator;
+
+import version2.models.Person;
+import version2.models.Person.Gender;
 
 public class GenderValidator {
 	

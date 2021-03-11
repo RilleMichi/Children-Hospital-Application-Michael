@@ -1,4 +1,4 @@
-package version2;
+package version2.validator;
 
 import java.time.LocalDate;
 
@@ -27,7 +27,7 @@ public class DateValidator {
 		 * - \\. --> "."
 		 * 
 		 * ((19|20)[0-9]{2})$ - Zahl zu Beginn mit 19 oder 20 - [0-9]{2} --> muss 2
-		 * Zahlen von 00-99
+		 * Zahlen von 00-99 enthalten
 		 */
 		return string.matches("^(3[0-1]|[1-2][0-9]|0[1-9])\\:(1[0-2]|0[1-9])\\:((19|20)[0-9]{2})$");
 	}

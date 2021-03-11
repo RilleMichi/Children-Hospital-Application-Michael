@@ -1,4 +1,4 @@
-package version2;
+package version2.models;
 
 public enum Insurance {
 	//Der Vorteil bei einem enum gibt man explizit was es für Werte hat

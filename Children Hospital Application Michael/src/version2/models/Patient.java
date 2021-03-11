@@ -1,4 +1,4 @@
-package version2;
+package version2.models;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
