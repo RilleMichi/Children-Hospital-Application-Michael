@@ -1,7 +1,6 @@
-package version2.validator;
+package version3.validator;
 
-import version2.exception.InvalidInputException;
-import version2.exception.RegexMismatchException;
+import version3.exception.InvalidInputException;
 
 public class BooleanValidator {
 	

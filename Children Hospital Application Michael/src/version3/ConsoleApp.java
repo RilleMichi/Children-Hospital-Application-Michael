@@ -1,45 +1,35 @@
-package version2;
+package version3;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
-import version2.exception.InvalidIntRangeException;
-import version2.exception.RegexMismatchException;
-import version2.models.Checkup;
-import version2.models.Insurance;
-import version2.models.Parent;
-import version2.models.Patient;
-import version2.models.Pediatrician;
-import version2.models.Person;
-import version2.models.Vaccination;
-import version2.models.Pediatrician.Title;
-import version2.models.Person.Gender;
-import version2.models.Vaccination.Vaccine;
-import version2.validator.BooleanValidator;
-import version2.validator.DateValidator;
-import version2.validator.DoubleRangeValidator;
-import version2.validator.IntRangeValidator;
+import version3.exception.InvalidIntRangeException;
+import version3.exception.RegexMismatchException;
+import version3.models.Checkup;
+import version3.models.Insurance;
+import version3.models.Parent;
+import version3.models.Patient;
+import version3.models.Pediatrician;
+import version3.models.Person;
+import version3.models.Vaccination;
+import version3.validator.BooleanValidator;
+import version3.validator.DateValidator;
+import version3.validator.DoubleRangeValidator;
+import version3.validator.IntRangeValidator;
 
 public class ConsoleApp {
 
 	// Damit man von überallzugreifen kann (in der Main, sowie auch in den Methoden)
 	private static Scanner scanner = new Scanner(System.in);
-	// Man erstellt eine PAtients liste, wo man alle Patienten manuell einfügen
-	// Würde auch mit Person funktionieren
-	// Kann von überallzugegriffen werden (in der Main, sowie auch in den Methoden)
-	private static List<Patient> patients = new ArrayList<>();
-	private static List<Pediatrician> pediatricians = new ArrayList<>();
-	private static List<Parent> parents = new ArrayList<>();
+	// Die model Klasse initaliseren
+	private static Model model = new Model();
 
 	public static void main(String[] args) {
 
+		System.out.println("Welcome Children Hospital");
+		
 		initData();
 
-		// Ärzte aus einer Liste in einer Variablen speichern
-		Pediatrician pediatrician1 = pediatricians.get(0);
-		Pediatrician pediatrician2 = pediatricians.get(1);
 
 		// Die applikation soll so lange weiterlaufen, bis User "q" eingibt.
 		String selection;
@@ -49,24 +39,27 @@ public class ConsoleApp {
 			System.out.println("Enter choice: [q=quit, c=createCheckup, v=createVaccination, p=printPatients]");
 			selection = scanner.next();
 			if (selection.equals("c")) {
+				//Hier sucht man eine zufälligen Arzt
+				Pediatrician pediatrician = model.getAvailablePediatrician();
 				Patient patient = enterPatient();
 				// add check-up für patient
 				// 1. Variante mit Benutzereingabe
-				Checkup checkup1 = createCheckup(pediatrician1);
+				Checkup checkup1 = createCheckup(pediatrician);
 				// 2. Variante
-				Checkup checkup2 = new Checkup(70.3, 175, 36.5, false, pediatrician1);
-				Checkup checkup3 = new Checkup(85.2, 185, 37.5, true, LocalDate.of(2019, 12, 15), pediatrician2);
+				Checkup checkup2 = new Checkup(70.3, 175, 36.5, false, pediatrician);
+				Checkup checkup3 = new Checkup(85.2, 185, 37.5, true, LocalDate.of(2019, 12, 15), pediatrician);
 				patient.addCheckup(checkup1);
 				patient.addCheckup(checkup2);
 				patient.addCheckup(checkup3);
 			} else if (selection.equals("v")) {
+				Pediatrician pediatrician = model.getAvailablePediatrician();
 				Patient patient = enterPatient();
 				// Add Vaccinantion für patient
 				// 1. Variante mit Benutzereingabe
-				Vaccination vaccination1 = createVaccination(pediatrician1);
+				Vaccination vaccination1 = createVaccination(pediatrician);
 				// 2. Variante
-				Vaccination vaccination2 = new Vaccination(Vaccination.Vaccine.TETANUS, pediatrician1);
-				Vaccination vaccination3 = new Vaccination(Vaccination.Vaccine.COVID, pediatrician2);
+				Vaccination vaccination2 = new Vaccination(Vaccination.Vaccine.TETANUS, pediatrician);
+				Vaccination vaccination3 = new Vaccination(Vaccination.Vaccine.COVID, pediatrician);
 				patient.addVaccination(vaccination1);
 				patient.addVaccination(vaccination2);
 				patient.addVaccination(vaccination3);
@@ -84,24 +77,30 @@ public class ConsoleApp {
 	private static void initData() {
 		// Eltern erstellen und in Liste eintragen
 		Parent parent1 = new Parent("Huu", "Nguyen", Person.Gender.MALE, "9876543210", "4537 Wiedlisbach");
-		parents.add(parent1);
 		Parent parent2 = new Parent("Sarah", "Lobsiger", Person.Gender.FEMALE, "132456789", "3000 Bern");
-		parents.add(parent2);
 
 		// Patienten erstellen und in Liste eintragen
 		Patient patient1 = new Patient("Michael", "Nguyen", Person.Gender.MALE, LocalDate.of(1998, 06, 17), parent1,
 				Insurance.ASSURA);
-		patients.add(patient1);
 		Patient patient2 = new Patient("Lars", "Meyer", Person.Gender.MALE, LocalDate.of(2010, 12, 31), parent2,
 				Insurance.KPT);
-		patients.add(patient2);
-
+		
+		model.addPatient(patient1);
+		model.addPatient(patient2);
+		/*
+		 * Ist eine ehemalige Methode (Wo man keine Model klasse hatte) in eine Liste einzufügen
+		 * patients.add(patient1);
+		 * patients.add(patient1);
+		 * patientMap.put(patient1.getFullName(), patient1);p
+		 * atientMap.put(patient2.getFullName(), patient2);
+		 * 
+		 */
+		
 		// Ärzte erstellen und in Liste eintragen
 		Pediatrician pediatrician1 = new Pediatrician("Adrian", "Casty", Person.Gender.MALE, Pediatrician.Title.Dr_Med);
-		pediatricians.add(pediatrician1);
 		Pediatrician pediatrician2 = new Pediatrician("Heinni", "Hans", Person.Gender.MALE, Pediatrician.Title.Prof_Dr);
-		pediatricians.add(pediatrician2);
-
+		model.addPediatrician(pediatrician1);
+		model.addPediatrician(pediatrician2);
 	}
 
 	// Create Checkup
@@ -174,6 +173,7 @@ public class ConsoleApp {
 		return new Checkup(weight, height, temperature, covid, checkupDate, pediatrician);
 	}
 
+	// Create Vaccination
 	private static Vaccination createVaccination(Pediatrician pediatrician) {
 		boolean validInput;
 		Vaccination.Vaccine vaccine = null;
@@ -205,8 +205,6 @@ public class ConsoleApp {
 		return new Vaccination(vaccine, vaccinationDate, pediatrician);
 	}
 
-
-	/*************** Patient ****************/
 	// Gibt die gesuchte Person aus, die der Benutzer eingibt
 	private static Patient enterPatient() {
 		Patient searchPatient = null;
@@ -219,29 +217,17 @@ public class ConsoleApp {
 			String lastName = scanner.next();
 			// Geh zur Methode searchPatient. Man hat es getrennt, damit man die Methode
 			// searchPatient auch "einzel" aufrufen kann
-			searchPatient = searchPatient(firstName, lastName);
+			searchPatient = model.getPatient(firstName, lastName);
 
 		} while (searchPatient == null);
 		// Gibt PAtienten zurück
 		return searchPatient;
 	}
 
-	private static Patient searchPatient(String firstName, String lastName) {
-		// Überprüfe jede Patienten nach Name
-		for (Patient patient : patients) {
-			// Bei einen Treffer speiche diese in Variable searchPAtient
-			if (patient.getFirstName().equals(firstName) && patient.getLastName().equals(lastName)) {
-				return patient;
-			}
-		}
-		return null;
-	}
-
-	// Gibt alle Patienten aus
+	// Gibt alle Patienten aus. Zur Info: diese Methode hat nichts in der Model Klasse zu suchen, da es Sachen in der KONSOLO ausgibt
 	private static void printPatient() {
-		for (Person patient : patients) {
+		for (Person patient : model.getAllPatients()) {
 			System.out.println(patient);
-			System.out.println();
 		}
 	}
 
