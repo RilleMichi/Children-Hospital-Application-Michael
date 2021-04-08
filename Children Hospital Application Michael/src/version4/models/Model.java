@@ -1,4 +1,4 @@
-package version3.models;
+package version4.models;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -16,9 +16,7 @@ public class Model {
 	// Würde auch mit Person funktionieren
 	// Kann von überallzugegriffen werden (in der Main, sowie auch in den Methoden)
 	private List<Patient> patients;
-	// Map um keine lineare suche zu haben
-	// private Map<String, Patient> patientNumberMap;
-
+	
 	// Hier speichert MEngen von Patientennummer ab, statt eines PAtient
 	private Map<String, Set<Integer>> patientNumberMap;
 
@@ -34,12 +32,8 @@ public class Model {
 		this.pediatricians = new ArrayList<>();
 	}
 
-	// Fügt hier in die Map und ArrayListe die Patient ein
+	// Fügt hier in die Map und ArrayListe den Patient ein
 	public void addPatient(Patient patient) {
-		// Hier entsteht ein PRoblem, da 2 Patienten mit gleichen Namen vorkommen kann.
-		// Es wird überschrieben
-		// this.patientNumberMap.put(patient.getFullName(), patient);
-
 		int patientNumber = patient.getNumber();
 		String name = patient.getFullName();
 		this.patients.add(patient);
@@ -47,7 +41,7 @@ public class Model {
 
 		/*
 		 * Es kann vorkommen, dass Patienten den gleichen Namen haben. Dies wird mit
-		 * dieser Collections überprüft In der PatientNumberMap collections ist der Name
+		 * dieser Collections überprüft. In der PatientNumberMap collections ist der Name
 		 * der KEY und die Nummer den Wert
 		 *
 		 * Die Nummer ist eine Menge! Das heisst bei Namen, die mehrmals vorkommen ist
@@ -88,10 +82,10 @@ public class Model {
 		}
 	}
 
+	//Gibt eine Liste von den PatientenNUMMER zurück, wo diesen Namen besitzen
 	// Hier werden alle PAtientenNummer aus der PatientNumberMap herausgegegeben
 	// Das heisst zum Beispiel Wenn man nach den Namen Michael sucht und es 2
-	// Michaels gibt
-	// werden beide IDNummer als eine Menge zurückgegeben
+	// Michaels gibt werden beide IDNummer als eine Menge zurückgegeben
 	public Set<Integer> getPatientNumbers(String firstName, String lastName) {
 		String fullName = firstName + " " + lastName;
 		// Holt den Wert bzw. Menge mithilfe des Namen
@@ -104,32 +98,14 @@ public class Model {
 		}
 	}
 
-	// Alte getPatients
-	// public Patient getPatient(String firstName, String lastName) {
-	// Hier sucht man den PAtient mit der Map Collections da es schnelle geht
-	// String fullName = firstName + " " + lastName;
-	// Patient patient = this.patientNumberMap.get(fullName);
-	// Zur Info gibt Null zurück, wenn es keinen PAtient findet
-	// return patient;
-
-	// Überprüfe jede Patienten nach Name
-	// for (Patient patient : patients) {
-	// Bei einen Treffer speiche diese in Variable searchPAtient
-	// if (patient.getFirstName().equals(firstName) &&
-	// patient.getLastName().equals(lastName)) {
-	// return patient;
-	// }
-	// }
-	// return null;
-	// }
-
+	//Gibt eine Liste mit PAtienten zurück, wo man nach der PID gesucht hat
 	public Patient getPatient(int number) {
 		return this.patientMap.get(number);
 	}
 
+	//Gibt eine Liste mit allen Patienten zurück
 	// Diese Methode ist aber gefährlich, da man die Liste nach draussen gibt
-	// Man kann aber entweder eine Kopie erstellen und nicht eine Unmodifzierte
-	// Liste ausgeben
+	// Man kann aber entweder eine Kopie erstellen und nicht eine Unmodifzierte Liste ausgeben
 	// Was hier anschliessend gemacht wurde
 	public List<Patient> getAllPatients() {
 		return Collections.unmodifiableList(this.patients);
@@ -146,35 +122,24 @@ public class Model {
 		return this.pediatricians.get(index);
 	}
 
-	// Man holt hier alle PatientenNummer und holt von Patient zu PAtient die Liste
-	// zurück
+	// Man holt hier alle PatientenNummer und gibt diese PAtientena aus
 	public Collection<Patient> getPatients(String firstName, String lastName) {
+		//Man erstellt eine Array, damit man bei mehreren Patienten diese zurückgeben kann
 		List<Patient> patients = new ArrayList<Patient>();
+		//diese Ruft die getPatientNumbers Methode auf und gibt alle Patienten zurück mit den gleichen Namen
 		Set<Integer> patientNumbers = this.getPatientNumbers(firstName, lastName);
 		for (int patientNumber : patientNumbers) {
+			//werden dann in der array gespeichert und wieder ausgegeben
 			Patient patient = this.getPatient(patientNumber);
 			patients.add(patient);
 		}
+		//hier ist kein unmodifiable, da dies bereits geändert wurde
 		return patients;
 	}
 
-//	Dies ist keine effiziente Suche wie bei den Patients
-//	public Collection<Parent> getParents(String firstName, String lastName){
-//		Set<Parent> parents = new HashSet<>();
-//		for (Patient patient : patients) {
-//			Parent parent = patient.getParent();
-//			parents.add(parent);
-//			if(parent.getFirstName().equals(firstName) && parent.getLastName().equals(lastName)) {
-//				parents.add(parent);
-//			}
-//		}
-//		//Kein umodified, da es intern bereits abgeändert wurde
-//		return parents;
-//	}
-
 	// Man holt eine Menge von Eltern
 	public Collection<Parent> getParents() {
-		// Hier erstellt man eine Leere Menge, da man die Eltern nur einmal ausgeben
+		// Hier erstellt man eine Leere Menge, da man die Eltern nur EINMAL ausgeben
 		// möchte
 		Set<Parent> parents = new HashSet<>();
 		for (Patient patient : patients) {

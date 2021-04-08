@@ -1,12 +1,15 @@
 package version3;
 
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.Scanner;
+import java.util.Set;
 
 import version3.exception.InvalidIntRangeException;
 import version3.exception.RegexMismatchException;
 import version3.models.Checkup;
 import version3.models.Insurance;
+import version3.models.Model;
 import version3.models.Parent;
 import version3.models.Patient;
 import version3.models.Pediatrician;
@@ -27,21 +30,21 @@ public class ConsoleApp {
 	public static void main(String[] args) {
 
 		System.out.println("Welcome Children Hospital");
-		
-		initData();
 
+		initData();
 
 		// Die applikation soll so lange weiterlaufen, bis User "q" eingibt.
 		String selection;
-
 		do {
 			// Patient suchen und in die variable patient1 abspeichern
-			System.out.println("Enter choice: [q=quit, c=createCheckup, v=createVaccination, p=printPatients]");
+			System.out.println(
+					"Enter choice: [q=quit, c=createCheckup, v=createVaccination, p=printPatients, s=searchPatientsByNumber, n=searchPatientsByName, r=printParents]");
 			selection = scanner.next();
 			if (selection.equals("c")) {
-				//Hier sucht man eine zufälligen Arzt
+				// Hier sucht man eine zufälligen Arzt
 				Pediatrician pediatrician = model.getAvailablePediatrician();
-				Patient patient = enterPatient();
+				// Hier sucht man den Patienten nach der Nummer
+				Patient patient = searchPatientByNumber();
 				// add check-up für patient
 				// 1. Variante mit Benutzereingabe
 				Checkup checkup1 = createCheckup(pediatrician);
@@ -53,7 +56,12 @@ public class ConsoleApp {
 				patient.addCheckup(checkup3);
 			} else if (selection.equals("v")) {
 				Pediatrician pediatrician = model.getAvailablePediatrician();
-				Patient patient = enterPatient();
+				// Hier sucht man den Patienten nach Name
+				// Patient patient = searchPatientByName();
+
+				// Hier sucht man den Patienten nach der Nummer
+				Patient patient = searchPatientByNumber();
+
 				// Add Vaccinantion für patient
 				// 1. Variante mit Benutzereingabe
 				Vaccination vaccination1 = createVaccination(pediatrician);
@@ -66,6 +74,17 @@ public class ConsoleApp {
 			} else if (selection.equals("p")) {
 				// Aufrufen der Methoden um alle PAtienten anzuzeigen
 				printPatient();
+			} else if (selection.equals("s")) {
+				Patient patient = searchPatientByNumber();
+				System.out.println(patient);
+			} else if (selection.equals("n")) {
+				Collection<Patient> patients= searchPatientByName();
+				for (Patient patient : patients) {
+					System.out.println(patient);
+				}
+			} else if (selection.equals("r")) {
+				// Aufrufen der Methoden um alle PAtienten anzuzeigen
+				printParents();
 			}
 		} while (!selection.equals("q"));
 
@@ -84,18 +103,20 @@ public class ConsoleApp {
 				Insurance.ASSURA);
 		Patient patient2 = new Patient("Lars", "Meyer", Person.Gender.MALE, LocalDate.of(2010, 12, 31), parent2,
 				Insurance.KPT);
-		
+		Patient patient3 = new Patient("Lars", "Meyer", Person.Gender.MALE, LocalDate.of(2011, 12, 31), parent2,
+				Insurance.KPT);
+
 		model.addPatient(patient1);
 		model.addPatient(patient2);
+		model.addPatient(patient3);
 		/*
-		 * Ist eine ehemalige Methode (Wo man keine Model klasse hatte) in eine Liste einzufügen
-		 * patients.add(patient1);
-		 * patients.add(patient1);
+		 * Ist eine ehemalige Methode (Wo man keine Model klasse hatte) in eine Liste
+		 * einzufügen patients.add(patient1); patients.add(patient1);
 		 * patientMap.put(patient1.getFullName(), patient1);p
 		 * atientMap.put(patient2.getFullName(), patient2);
 		 * 
 		 */
-		
+
 		// Ärzte erstellen und in Liste eintragen
 		Pediatrician pediatrician1 = new Pediatrician("Adrian", "Casty", Person.Gender.MALE, Pediatrician.Title.Dr_Med);
 		Pediatrician pediatrician2 = new Pediatrician("Heinni", "Hans", Person.Gender.MALE, Pediatrician.Title.Prof_Dr);
@@ -206,28 +227,46 @@ public class ConsoleApp {
 	}
 
 	// Gibt die gesuchte Person aus, die der Benutzer eingibt
-	private static Patient enterPatient() {
-		Patient searchPatient = null;
+	private static Collection<Patient> searchPatientByName() {
+		Collection<Patient> patientNumbers;
+
+		System.out.println("Search Patient");
+		System.out.println("Enter Firstname: ");
+		String firstName = scanner.next();
+
+		System.out.println("Enter Lastname: ");
+		String lastName = scanner.next();
+		// Geh zur Methode searchPatient. Man hat es getrennt, damit man die Methode
+		// searchPatient auch "einzel" aufrufen kann
+		patientNumbers = model.getPatients(firstName, lastName);
+
+		return patientNumbers;
+	}
+
+	// Gibt die gesuchte Person aus, die der Benutzer eingibt. Aber diesesmal nach
+	// der Nummer
+	private static Patient searchPatientByNumber() {
+		Patient searchPatient;
 		do {
-			System.out.println("Search Patient");
-			System.out.println("Enter Firstname: ");
-			String firstName = scanner.next();
-
-			System.out.println("Enter Lastname: ");
-			String lastName = scanner.next();
-			// Geh zur Methode searchPatient. Man hat es getrennt, damit man die Methode
-			// searchPatient auch "einzel" aufrufen kann
-			searchPatient = model.getPatient(firstName, lastName);
-
+			System.out.print("Enter patient number: ");
+			int patientNumber = scanner.nextInt();
+			searchPatient = model.getPatient(patientNumber);
 		} while (searchPatient == null);
-		// Gibt PAtienten zurück
+		// Gibt Patienten zurück
 		return searchPatient;
 	}
 
-	// Gibt alle Patienten aus. Zur Info: diese Methode hat nichts in der Model Klasse zu suchen, da es Sachen in der KONSOLO ausgibt
+	// Gibt alle Patienten aus. Zur Info: diese Methode hat nichts in der Model
+	// Klasse zu suchen, da es Sachen in der KONSOLO ausgibt
 	private static void printPatient() {
-		for (Person patient : model.getAllPatients()) {
+		for (Patient patient : model.getAllPatients()) {
 			System.out.println(patient);
+		}
+	}
+	
+	private static void printParents() {
+		for (Parent parent : model.getParents()) {
+			System.out.println(parent);
 		}
 	}
 
