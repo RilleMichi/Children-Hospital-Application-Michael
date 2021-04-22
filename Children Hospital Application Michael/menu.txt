@@ -1,0 +1,12 @@
+q=quit
+c=enterCheckup
+v=enterVaccination
+p=printPatients
+r=printParents
+s1=searchPatientsByNumber
+s2=searchPatientsByName
+q1=getVaccinatedPatients
+q2=getAmountOfCheckups
+q3=getParentNames
+q4=getChildrenOfLargestFamily
+q5=areVaccinated

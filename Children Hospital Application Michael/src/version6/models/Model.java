@@ -1,9 +1,10 @@
-package version5.models;
+package version6.models;
 
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -12,8 +13,8 @@ import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import version5.models.Person.Gender;
-import version5.models.Vaccination.Vaccine;
+import version6.models.Person.Gender;
+import version6.models.Vaccination.Vaccine;
 
 public class Model {
 
@@ -165,6 +166,11 @@ public class Model {
 	public Collection<Parent> getParents(String firstName, String lastName) {
 		// Quelle
 		return this.patients.stream()
+				//Die Methode .map verlangt einen Lampda Ausdruck als Argument. Dann greift es auf ein funktionales Interfaces greift. Beim .map ist es ein Funktion!
+				//Schaut man sich die Methode filter() etwas genauer an, so erkennt man, dass sie als Argument ein Predicate erwartet. Dies ist ein functional interface dessen funktionale Methode einen boolschen Wert liefert.
+				//https://www.torsten-horn.de/techdocs/java-lambdas.htm
+				//Filter: Filterung gewünschter Elemente aus einer Menge von Elementen. Die Element-Typen bleiben dieselben, aber die Menge der Elemente wird reduziert. Beispiel: Stream.filter( Predicate ).
+				//Map: Transformation der Elemente. Dabei ändert sich die Menge der Elemente nicht, aber oft ändert sich der Element-Typ. Beispielsweise können Berechnungen, Extraktionen oder Umwandlungen durchgeführt werden. Beispiel: Stream.map( Function ).
 				// Hole alle Eltern, indem er für jeden einzelnen Objekts erzeugt und dann die getPArent Methode aufruft 
 				.map(patient -> patient.getParent())
 				// Suche alle nach dem Namen mit dem Vor und Nachnamen
@@ -213,6 +219,25 @@ public class Model {
 				.collect(Collectors.joining(", "));
 	}
 	
+	public String getChildrenOfLargestFamily() {
+		return this.patients.stream()
+				//Hole alle Elternliste von diesen Patienten heraus
+				.map(Patient::getParent)
+				//Hole eine Kindernliste von diesen Eltern heraus
+				.map(Parent::getChildren)
+				//Maximiert von dieser Liste bzw. die Grösste Liste heraussuchen
+				//Hier besteht die Möglichkeit nichts zurückgibt, wenn beispielsweise der Stream leer ist.
+				.max(Comparator.comparing(List::size))
+				//Falls man eine Leere Liste erhält, dann gibt eine Leere Liste zurück und arbeite mit diesen weiter
+				.orElse(List.of())
+				//man wandelt diese Liste in einem Stream um
+				.stream()
+				//Danach holt man von der Kindernliste die Namen aus
+				.map(Patient::getFullName)
+				//Gibt dann diese als String zurück und durch mit einem , getrennt
+				.collect(Collectors.joining(", "));
+	}
+	
 	
 	public boolean areVaccinated(Gender gender,int age, Vaccine vaccine) {
 		return this.patients.stream()
@@ -223,6 +248,7 @@ public class Model {
 				//Hole alle Frauen heraus, die mit Polio geimpft sind.
 				.allMatch(patient -> patient.isVaccinated(vaccine));						
 	}
+	
 	
 	
 }
