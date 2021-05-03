@@ -4,8 +4,6 @@ import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Scanner;
 
-import com.sun.tools.javac.util.List;
-
 import version4.models.Checkup;
 import version4.models.Insurance;
 import version4.models.Model;

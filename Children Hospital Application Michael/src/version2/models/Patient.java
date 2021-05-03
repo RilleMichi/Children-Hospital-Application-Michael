@@ -4,9 +4,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.graalvm.compiler.core.common.type.ArithmeticOpTable.BinaryOp.Add;
-
-
 public class Patient extends Person {
 
 	private LocalDate birthDate;

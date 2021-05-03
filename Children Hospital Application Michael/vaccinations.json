@@ -1,0 +1,13 @@
+[
+  {
+    "date": "15-12-1998",
+    "vaccine": "POLIO",
+    "pediatrician": {
+      "title": "Prof_Dr",
+      "firstName": "Heinni",
+      "lastName": "Hans",
+      "gender": "MALE"
+    },
+    "patientNumber": 2
+  }
+]
