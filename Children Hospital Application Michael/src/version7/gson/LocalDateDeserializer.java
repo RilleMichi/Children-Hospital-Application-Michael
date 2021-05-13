@@ -1,4 +1,4 @@
-package version7.validator;
+package version7.gson;
 
 import java.lang.reflect.Type;
 import java.time.LocalDate;

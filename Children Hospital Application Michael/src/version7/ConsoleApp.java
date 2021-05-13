@@ -1,25 +1,16 @@
 package version7;
 
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Reader;
 import java.io.Writer;
 import java.time.LocalDate;
 import java.util.Collection;
-import java.util.List;
 import java.util.Scanner;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 import version7.models.Checkup;
-import version7.models.Insurance;
 import version7.models.Model;
-import version7.models.Parent;
 import version7.models.Patient;
 import version7.models.Pediatrician;
-import version7.models.Person;
 import version7.models.Person.Gender;
 import version7.models.Vaccination;
 import version7.models.Vaccination.Vaccine;
@@ -27,8 +18,6 @@ import version7.validator.BooleanValidator;
 import version7.validator.DateValidator;
 import version7.validator.DoubleRangeValidator;
 import version7.validator.IntRangeValidator;
-import version7.validator.LocalDateDeserializer;
-import version7.validator.LocalDateSerializer;
 import version7.validator.VaccineValidator;
 import version7.validator.Validator;
 
@@ -36,21 +25,23 @@ public class ConsoleApp {
 
 	// Damit man von überallzugreifen kann (in der Main, sowie auch in den Methoden)
 	private static Scanner scanner = new Scanner(System.in);
+	
 	// Die model Klasse initaliseren
-	private static Model model = new Model();
+	public static Model model = new Model();
 
 	public static void main(String[] args) {
 
 		System.out.println("Welcome Children Hospital");
 
-		initData();
-		readCheckups();
-		readVaccinations();
+		//Hier lesen man die Daten von Personen ein
+		model = Model.createTestModel();
+		model.readCheckups();
+		model.readVaccinations();
 
 		// Die applikation soll so lange weiterlaufen, bis User "q" eingibt.
 		String selection;
 
-		String menu = getMenu();
+		String menu = Model.getMenu();
 
 		do {
 			// Patient suchen und in die variable patient1 abspeichern
@@ -92,60 +83,9 @@ public class ConsoleApp {
 			}
 		} while (!selection.equals("q"));
 
-		writeVaccinations();
+		model.writeVaccinations();
 		System.out.println("Bye!");
 		scanner.close();
-	}
-
-	private static void readVaccinations() {		
-		//gsonBuilder erstellen
-		GsonBuilder gsonBuilder = new GsonBuilder();
-		gsonBuilder.registerTypeAdapter(LocalDate.class, new LocalDateSerializer());
-		gsonBuilder.registerTypeAdapter(LocalDate.class, new LocalDateDeserializer());
-		
-		//Gson erstellen
-		Gson gson = gsonBuilder.setPrettyPrinting().create();
-
-		try {
-			//Reader klasse liest ein Json File
-			Reader reader = new FileReader("vaccinations.json");
-			
-			//Mithilfe des gsonBuilder werden die Daten richtig formatiert. Alle Vaccination klassen werden vorest in einer Liste abgespeichert
-			Vaccination[] vaccinations = gson.fromJson(reader, Vaccination[].class);
-			//Sie werden einzeln ausgebenen UND ANSCHLIESSEND ZUM RICHTIGEN PATIENT erstellt
-			for (Vaccination vaccination : vaccinations) {
-				int patientNumber = vaccination.getPatientNumber();
-				Patient patient = model.getPatient(patientNumber);
-				patient.addVaccination(vaccination);
-			}
-			reader.close();
-		} catch (IOException e) {
-			System.out.println("Reading vaccinations not possible!");
-		}
-	}
-
-	private static void writeVaccinations() {
-		//Man holt alle Vaccinations heraus
-		List<Vaccination> vaccinations = model.getVaccinations();
-		
-		//Man erstellt eine Klasse gsonbuilder
-		GsonBuilder gsonBuilder = new GsonBuilder();
-		gsonBuilder.registerTypeAdapter(LocalDate.class, new LocalDateSerializer());
-		gsonBuilder.registerTypeAdapter(LocalDate.class, new LocalDateDeserializer());
-
-		//Gson wird erstellt
-		Gson gson = gsonBuilder.setPrettyPrinting().create();
-
-		try {
-			//Man erstellt falls noch nicht vorhanden ein neues vaccination.json File
-			Writer writer = new FileWriter("vaccinations.json");
-			//Diese werden eingetragen
-			gson.toJson(vaccinations, writer);
-			writer.close();
-		} catch (IOException e) {
-			System.out.println("Writing vaccinations not possible!");
-		}
-
 	}
 
 	/********************** Methoden *************************/
@@ -184,78 +124,6 @@ public class ConsoleApp {
 		// Add Vaccinantion für patient
 		Vaccination vaccination = createVaccination(pediatrician, patient.getNumber());
 		patient.addVaccination(vaccination);
-	}
-
-	private static String getMenu() {
-		String menu = "";
-		String sep = "";
-		try {
-			Reader fileReader = new FileReader("menu.txt");
-			Scanner scanner = new Scanner(fileReader);
-			// Man liest von Zeile zu Zeile
-			while (scanner.hasNextLine()) {
-				// speichert die Zeile in die Variable line
-				String line = scanner.nextLine();
-				// Wird im Menü hinten noch angefügt
-				menu = menu + sep + line;
-				sep = ", ";
-			}
-			scanner.close();
-			fileReader.close();
-		} catch (IOException e) {
-			System.out.println("Menu not found!");
-			// Hier gibt man einen Leeren Strng zurück, wenn man den Menu nicht findet
-			return "";
-		}
-		return menu;
-	}
-
-	// Daten einlesen
-	private static void initData() {
-		// Eltern erstellen und in Liste eintragen
-		Parent parent1 = new Parent("Huu", "Nguyen", Person.Gender.MALE, "9876543210", "4537 Wiedlisbach");
-		Parent parent2 = new Parent("Sarah", "Lobsiger", Person.Gender.FEMALE, "132456789", "3000 Bern");
-
-		// Patienten erstellen und in Liste eintragen
-		Patient patient1 = new Patient("Michael", "Nguyen", Person.Gender.MALE, LocalDate.of(1998, 06, 17), parent1,
-				Insurance.ASSURA);
-		Patient patient2 = new Patient("Lars", "Meyer", Person.Gender.MALE, LocalDate.of(2010, 12, 31), parent2,
-				Insurance.KPT);
-		Patient patient3 = new Patient("Lars", "Meyer", Person.Gender.MALE, LocalDate.of(2011, 12, 31), parent2,
-				Insurance.KPT);
-		model.addPatient(patient1);
-		model.addPatient(patient2);
-		model.addPatient(patient3);
-
-		// Ärzte erstellen und in Liste eintragen
-		Pediatrician pediatrician1 = new Pediatrician("Adrian", "Casty", Person.Gender.MALE, Pediatrician.Title.Dr_Med);
-		Pediatrician pediatrician2 = new Pediatrician("Heinni", "Hans", Person.Gender.MALE, Pediatrician.Title.Prof_Dr);
-		model.addPediatrician(pediatrician1);
-		model.addPediatrician(pediatrician2);
-	}
-
-	private static void readCheckups() {
-		try {
-			Reader reader = new FileReader("checkups.csv");
-			Scanner scanner = new Scanner(reader);
-			while (scanner.hasNextLine()) {
-				// speichert die zeile in csv
-				String csv = scanner.nextLine();
-				// erstellt ein Checkup für jede Zeile indem sie Methode fromCSV aufruft
-				Checkup checkup = Checkup.fromCSV(csv, model);
-
-				// Von diesem Checkup holt man die Patientnummer
-				int patientNumber = checkup.getPatientNumber();
-				// Danach holt man den Patient anhand dieser PAtientennummer
-				Patient patient = model.getPatient(patientNumber);
-				// Der Checkup wird zum PAtienten hinzugefügt.
-				patient.addCheckup(checkup);
-			}
-			scanner.close();
-			reader.close();
-		} catch (IOException e) {
-			System.out.println("Checkup file not found!");
-		}
 	}
 
 	// Create Checkup

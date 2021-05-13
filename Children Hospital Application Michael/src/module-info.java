@@ -1,8 +1,9 @@
 module childrenHospitalAppMichael {
-	exports version4.models;
+
 	exports version5.models;
 	exports version2.models;
 	exports version3.models;
+	exports version4.models;
 	exports version7.exception;
 	exports version3.exception;
 	exports version5.validator;
@@ -28,12 +29,17 @@ module childrenHospitalAppMichael {
 	
 	// JavaFX modules (other modules are loaded transitively)
 	requires javafx.controls;
+	requires transitive javafx.graphics;
+	requires javafx.fxml;
 	
 	// for a clean setup, add gson library to modulepath
 	requires com.google.gson;
 	
 	// package containing your JavaFX application
 	exports version7 to javafx.graphics;
+	exports topic08 to javafx.graphics;
 	
 	opens version7.models to com.google.gson;
+	opens version7 to javafx.fxml;
+	opens topic08 to javafx.fxml;
 }
