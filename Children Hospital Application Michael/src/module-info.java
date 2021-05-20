@@ -1,9 +1,5 @@
 module childrenHospitalAppMichael {
 
-	exports version5.models;
-	exports version2.models;
-	exports version3.models;
-	exports version4.models;
 	exports version7.exception;
 	exports version3.exception;
 	exports version5.validator;
