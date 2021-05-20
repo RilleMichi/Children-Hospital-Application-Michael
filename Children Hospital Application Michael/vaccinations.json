@@ -9,5 +9,38 @@
       "gender": "MALE"
     },
     "patientNumber": 2
+  },
+  {
+    "date": "15-12-1998",
+    "vaccine": "POLIO",
+    "pediatrician": {
+      "title": "Dr_Med",
+      "firstName": "Adrian",
+      "lastName": "Casty",
+      "gender": "MALE"
+    },
+    "patientNumber": 2
+  },
+  {
+    "date": "20-05-2021",
+    "vaccine": "TETANUS",
+    "pediatrician": {
+      "title": "Prof_Dr",
+      "firstName": "Heinni",
+      "lastName": "Hans",
+      "gender": "MALE"
+    },
+    "patientNumber": 3
+  },
+  {
+    "date": "20-05-2021",
+    "vaccine": "MEASLES",
+    "pediatrician": {
+      "title": "Prof_Dr",
+      "firstName": "Heinni",
+      "lastName": "Hans",
+      "gender": "MALE"
+    },
+    "patientNumber": 3
   }
 ]
