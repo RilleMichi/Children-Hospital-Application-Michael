@@ -1,14 +1,5 @@
 package version8;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
-import java.time.LocalDate;
-import java.util.List;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -16,8 +7,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Tab;
 import javafx.stage.Stage;
-import version8.gson.LocalDateDeserializer;
-import version8.gson.LocalDateSerializer;
 import version8.models.Model;
 import version8.models.Patient;
 import version8.models.Pediatrician;

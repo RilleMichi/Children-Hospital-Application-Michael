@@ -330,7 +330,8 @@ public class Model {
 	
 	}
 
-	public void readVaccinations() {		
+	public void readVaccinations() {	
+		Model model = new Model();
 		//gsonBuilder erstellen
 		GsonBuilder gsonBuilder = new GsonBuilder();
 		gsonBuilder.registerTypeAdapter(LocalDate.class, new LocalDateSerializer());
