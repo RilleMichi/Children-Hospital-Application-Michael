@@ -333,13 +333,14 @@ public class JavaFxApp extends Application {
 	private void enterVacination(Stage stage, Tab tab1) {
 		try {
 			URL url = this.getClass().getResource("vaccination.fxml");
+			System.out.println(url);
 			FXMLLoader loader = new FXMLLoader(url);
+			System.out.println(loader);
 			Parent root = loader.load();
+			System.out.println(root);
 			VaccinationController controller = (VaccinationController) loader.getController();
+			System.out.println(controller);
 			controller.init(this.model, stage, tab1);
-			
-			
-			
 			Scene scene = new Scene(root);
 			stage.setScene(scene);
 		} catch (IOException e) {

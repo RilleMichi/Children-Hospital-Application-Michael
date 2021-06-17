@@ -1,6 +1,7 @@
 package version8.models;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class Checkup {public Checkup() {
 	// TODO Auto-generated constructor stub
@@ -106,7 +107,6 @@ public class Checkup {public Checkup() {
 	    Pediatrician pediatrician = model.getPediatrician(pediatricianName);
 	    
 	    int patientNumber = Integer.parseInt(fields[6]);
-	    
 	    
 	    
 	    //Null für Pediatricion

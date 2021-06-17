@@ -5,7 +5,7 @@
     "pediatrician": {
       "title": "Prof_Dr",
       "firstName": "Heinni",
-      "lastName": "Hans",
+      "lastName": "Hans", 
       "gender": "MALE"
     },
     "patientNumber": 2

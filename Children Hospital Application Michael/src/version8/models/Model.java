@@ -270,7 +270,7 @@ public class Model {
 	}
 	
 	
-	public boolean areVaccinated(Gender gender,int age, Vaccine vaccine) {
+	public  boolean areVaccinated(Gender gender,int age, Vaccine vaccine) {
 		return this.patients.stream()
 				//Hole alle Frauen heraus
 				.filter(patient -> patient.getGender().equals(gender))
